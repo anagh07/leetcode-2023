@@ -6,7 +6,7 @@ public class TopKFrequentElements {
 
     public static void main(String[] args) {
         // nums = [1,1,1,2,2,3], k = 2
-        int nums[] = {1, 1, 1, 2, 2, 3};
+        int[] nums = {1, 1, 1, 2, 2, 3};
         int k = 1;
         System.out.println(Arrays.toString(topKFrequent(nums, k)));
     }

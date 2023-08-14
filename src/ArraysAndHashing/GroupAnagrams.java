@@ -5,8 +5,8 @@ import java.util.*;
 public class GroupAnagrams {
 
     public static void main(String[] args) {
-        String[] words = {"eat","tea","tan","ate","nat","bat"};
-        System.out.println(groupAnagramsOptimized(words).toString());
+        String[] words = {"eat", "tea", "tan", "ate", "nat", "bat"};
+        System.out.println(groupAnagramsOptimized(words));
         System.out.println((int) 'a');
     }
 
@@ -27,7 +27,7 @@ public class GroupAnagrams {
             if (grouped.containsKey(letterCount)) {
                 grouped.get(letterCount).add(word);
             } else {
-                grouped.put(letterCount, new ArrayList<String>(Collections.singleton(word)));
+                grouped.put(letterCount, new ArrayList<>(Collections.singleton(word)));
             }
         }
 
@@ -61,18 +61,18 @@ public class GroupAnagrams {
         if (s.length() != t.length()) {
             return false;
         }
-        HashMap<Character, Integer> wordS = new HashMap<Character, Integer>();
-        HashMap<Character, Integer> wordT = new HashMap<Character, Integer>();
+        HashMap<Character, Integer> wordS = new HashMap<>();
+        HashMap<Character, Integer> wordT = new HashMap<>();
         for (Character letter : s.toCharArray()) {
             if (wordS.containsKey(letter)) {
-                wordS.put(letter, wordS.get(letter)+1);
+                wordS.put(letter, wordS.get(letter) + 1);
             } else {
                 wordS.put(letter, 1);
             }
         }
         for (Character letter : t.toCharArray()) {
             if (wordT.containsKey(letter)) {
-                wordT.put(letter, wordT.get(letter)+1);
+                wordT.put(letter, wordT.get(letter) + 1);
             } else {
                 wordT.put(letter, 1);
             }
