@@ -5,8 +5,9 @@ public class BinarySearch {
     public static void main(String[] args) {
 //        int[] numbers = {-1, 0, 3, 5, 9, 12};
 //        int[] numbers = {-1, 0, 3, 5, 9, 12};
-        int[] numbers = {5};
-        System.out.println(search(numbers, 5));
+//        int[] numbers = {5};
+        int[] numbers = {1,3};
+        System.out.println(search(numbers, 3));
     }
 
     public static int search(int[] nums, int target) {
