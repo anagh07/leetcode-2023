@@ -18,7 +18,7 @@ public class LC875KokoEatingBananas {
         // bin search for correct k in the solutions array
         int value1 = 1;
         int value2 = Arrays.stream(piles).max().getAsInt();
-        int k = 1, calculatedH;
+        int k, calculatedH;
         while (value2 > value1) {
             k = value1 + (value2 - value1)/2;
             calculatedH = calcH(piles, k);
