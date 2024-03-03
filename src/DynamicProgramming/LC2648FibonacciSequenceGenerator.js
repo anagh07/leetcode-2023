@@ -1,26 +1,16 @@
-var fibGenerator = function*() {
-    let fib = [0, 1, 1];
-    // Start fib calc
-    // fib(0)
-    yield fib[0];
+var fibGenerator = function* () {
+  let last = 1;
+  let secondLast = 0;
 
-    // fib(1)
-    yield fib[1];
-
-    // fib(2)
-    yield fib[2];
-
-    while (true) {
-        fib.shift();
-        fib.push(fib[1] + fib[0]);
-        yield fib[2];
-    }
-}
+  while (true) {
+    yield secondLast;
+    let next = last + secondLast;
+    secondLast = last;
+    last = next;
+  }
+};
 
 const myfun = fibGenerator();
-console.log(myfun.next().value);
-console.log(myfun.next().value);
-console.log(myfun.next().value);
-console.log(myfun.next().value);
-console.log(myfun.next().value);
-console.log(myfun.next().value);
+for (let i = 0; i < 11; i++) {
+  console.log(myfun.next().value);
+}
