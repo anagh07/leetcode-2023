@@ -22,7 +22,7 @@ function recursion(num) {
 let calculations = 0;
 function dynamicProgFib() {
   let cache = {};
-  return rec = (num) => {
+  return recursion = (num) => {
     if (cache[num]) {
       return cache[num];
     } else {
@@ -30,7 +30,7 @@ function dynamicProgFib() {
       if (num < 2) {
         return num;
       } else {
-        cache[num] = rec(num - 1) + rec(num - 2);
+        cache[num] = recursion(num - 1) + recursion(num - 2);
         return cache[num];
       }
     }
