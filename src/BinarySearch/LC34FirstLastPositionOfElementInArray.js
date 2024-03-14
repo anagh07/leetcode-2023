@@ -22,6 +22,10 @@ var searchRange = function (nums, target) {
       ep = mid - 1;
     }
   }
+  // if first occurance not found dont search again
+  if (sol[0] === -1) {
+    return sol;
+  }
 
   // Search last occurance
   (sp = 0), (ep = nums.length - 1);
