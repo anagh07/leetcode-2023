@@ -2,9 +2,9 @@ package BinaryTrees;
 
 import java.util.ArrayList;
 
-public class BinarySearchTree {
+public class AVLTree {
 
-    private class Node {
+    private static class Node {
         private int value;
         private Node left;
         private Node right;
@@ -21,11 +21,15 @@ public class BinarySearchTree {
 
     private Node root;
 
-    public BinarySearchTree() {
+    public AVLTree() {
     }
 
-    public BinarySearchTree(int[] nums) {
+    public AVLTree(int[] nums) {
         this.populate(nums);
+    }
+
+    public int height() {
+        return height(root);
     }
 
     public int height(Node node) {
@@ -53,7 +57,59 @@ public class BinarySearchTree {
         }
         node.height = Math.max(height(node.left), height(node.right)) + 1;
 
+        return rotate(node);
+    }
+
+    private Node rotate(Node node) {
+        if (height(node.left) - height(node.right) > 1) {
+            // case: left
+            if (height(node.left.left) - height(node.left.right) > 0) {
+                // case: left-left
+                return rightRotate(node);
+            } else {
+                // case: left-right
+                return leftRotate(node.left);
+            }
+        }
+
+        if (height(node.right) - height(node.left) > 1) {
+            // case: right
+            if (height(node.right.right) - height(node.right.left) > 0) {
+                // case: right-right
+                return leftRotate(node);
+            } else {
+                // case: right-left
+                return rightRotate(node.right);
+            }
+        }
+
         return node;
+    }
+
+    private Node leftRotate(Node parent) {
+        Node child = parent.right;
+        Node tree = child.left;
+
+        parent.right = tree;
+        child.left = parent;
+
+        parent.height = 1 + Math.max(height(parent.left), height(parent.right));
+        child.height = 1 + Math.max(height(child.left), height(child.right));
+
+        return child;
+    }
+
+    private Node rightRotate(Node parent) {
+        Node child = parent.left;
+        Node tree = child.right;
+
+        parent.left = tree;
+        child.right = parent;
+
+        parent.height = 1 + Math.max(height(parent.left), height(parent.right));
+        child.height = 1 + Math.max(height(child.left), height(child.right));
+
+        return child;
     }
 
     public void populate(int[] nums) {
@@ -95,7 +151,7 @@ public class BinarySearchTree {
         }
         // Print current node
         System.out.println(indent + node.value);
-        // Left sub-tree
+        // Left subtree
         display(node.left, indent + "\t");
         display(node.right, indent + "\t");
     }
@@ -164,26 +220,13 @@ public class BinarySearchTree {
     }
 
     public static void main(String[] args) {
-        BinarySearchTree BST = new BinarySearchTree();
-        BST.populate(new int[]{15, 10, 12, 6, 21, 19, 23});
-        BST.display();
-        BST.prettyDisplay();
-        System.out.println("BST.isEmpty(): " + BST.isEmpty());
-        System.out.println("BST.isBalanced(): " + BST.isBalanced());
+        AVLTree tree = new AVLTree();
 
-        BinarySearchTree bst2 = new BinarySearchTree(new int[]{1, 2, 3, 7, 5});
-        bst2.display();
-        bst2.prettyDisplay();
-        System.out.println("bst2.isEmpty(): " + bst2.isEmpty());
-        System.out.println("bst2.isBalanced(): " + bst2.isBalanced());
+        for (int i = 0; i < 100; i++) {
+            tree.insert(i);
+        }
 
-        // Use sorted array to populated
-        BinarySearchTree bstSorted = new BinarySearchTree();
-        bstSorted.populateSorted(new int[]{1, 2, 3, 4, 5, 6, 7, 8});
-        bstSorted.prettyDisplay();
-        System.out.println("bstSorted.isBalanced(): " + bstSorted.isBalanced());
-        System.out.println("Pre-order: " + bstSorted.preOrder().toString());
-        System.out.println("In-order: " + bstSorted.inOrder().toString());
-        System.out.println("Post-order: " + bstSorted.postOrder().toString());
+        System.out.println("Tree height = " + tree.height());
+//        tree.prettyDisplay();
     }
 }
