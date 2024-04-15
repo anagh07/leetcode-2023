@@ -6,7 +6,10 @@ public class SegmentTree {
         SegmentTree tree = new SegmentTree(new int[]{
                 3, 8, 7, 6, -2, -8, 4, 9
         });
-        tree.display();
+//        tree.display();
+        tree.prettyDisplay();
+        System.out.println(tree.query(2, 6));
+        tree.update(2, 0);
         tree.prettyDisplay();
     }
 
@@ -48,6 +51,43 @@ public class SegmentTree {
 
         newNode.value = newNode.left.value + newNode.right.value;
         return newNode;
+    }
+
+    public int query(int start, int end) {
+        return this.query(root, start, end);
+    }
+
+    private int query(Node node, int start, int end) {
+        if (node.leftInterval >= start && node.rightInterval <= end) {
+            // case: node interval withing query interval
+            return node.value;
+        } else if (node.leftInterval > end || node.rightInterval < start) {
+            // case: node interval outside query - ret 0
+            return 0;
+        } else {
+            // case: overlap
+            return query(node.left, start, end) + query(node.right, start, end);
+        }
+    }
+
+    public void update(int index, int value) {
+        this.root.value = this.update(root, index, value);
+    }
+
+    private int update(Node node, int index, int value) {
+        if (node.leftInterval <= index && node.rightInterval >= index) {
+            if (node.leftInterval == index && node.rightInterval == index) {
+                node.value = value;
+                return value;
+            } else {
+                int leftNewValue = update(node.left, index, value);
+                int rightNewValue = update(node.right, index, value);
+
+                node.value = leftNewValue + rightNewValue;
+                return node.value;
+            }
+        }
+        return node.value;
     }
 
     public void display() {
