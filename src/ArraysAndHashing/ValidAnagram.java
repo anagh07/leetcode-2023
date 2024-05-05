@@ -9,27 +9,12 @@ public class ValidAnagram {
     public static void main(String[] args) {
         // Input: s = "anagram", t = "nagaram"
         // s = "rat", t = "car"
-        String s = "anagram";
-        String t = "nagaram";
+        String s = "rat";
+        String t = "car";
         System.out.println(isEfficientAnagram(s, t));
     }
 
     public static boolean isAnagram(String s, String t) {
-        if (s.length() != t.length()) {
-            return false;
-        }
-        ArrayList<String> letters = new ArrayList<>(Arrays.asList(s.split("")));
-        for (String letter : letters) {
-            if (!t.contains(letter)) {
-                return false;
-            } else {
-                t = t.replaceFirst(letter, "");
-            }
-        }
-        return true;
-    }
-
-    public static boolean isEfficientAnagram(String s, String t) {
         if (s.length() != t.length()) return false;
 
         HashMap<Character, Integer> map = new HashMap<>();
@@ -48,6 +33,27 @@ public class ValidAnagram {
             if (map.get(letter) != 0) {
                 return false;
             }
+        }
+
+        return true;
+    }
+
+    public static boolean isEfficientAnagram(String s, String t) {
+        int[] count = new int[26];
+
+        if (s.length() != t.length())
+            return false;
+
+        for (char letter : s.toCharArray()) {
+            count[letter - 'a'] += 1;
+        }
+        for (char letter : t.toCharArray()) {
+            count[letter - 'a'] -= 1;
+        }
+
+        for (int num : count) {
+            if (num != 0)
+                return false;
         }
 
         return true;
