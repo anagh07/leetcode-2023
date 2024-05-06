@@ -15,7 +15,7 @@ public class TwoSum {
 
         HashMap<Integer, Integer> traversedIndices = new HashMap<>();
 
-        for (Integer i = 0; i < nums.length; i++) {
+        for (int i = 0; i < nums.length; i++) {
             if (traversedIndices.get(target - nums[i]) == null) {
                 traversedIndices.put(nums[i], i);
             } else {
