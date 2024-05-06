@@ -1,25 +1,46 @@
 package ArraysAndHashing;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class LongestConsecutiveSequence {
 
     public static void main(String[] args) {
-        int[] nums = {};
+//        int[] nums = {};
 //        int[] nums = {100,4,200,1,3,2};
-//        int[] nums = {0,3,7,2,5,8,4,6,0,1};
-        System.out.println(longestConsecutive(nums));
+        int[] nums = {0,3,7,2,5,8,4,6,0,1};
+        System.out.println(longestConsecutiveOptimized(nums));
+    }
+
+    public static int longestConsecutiveOptimized(int[] nums) {
+        // Convert to Set
+        Set<Integer> numSet = new HashSet<>();
+        for (int num : nums) {
+            numSet.add(num);
+        }
+
+        // Every element that does not have a preceding element is a starting point
+        int result = 0;
+        for (int num : numSet) {
+            int count = 0;
+            if (!numSet.contains(num - 1)) {
+                count++;
+                while (numSet.contains(num + count)) {
+                    count++;
+                }
+            }
+            result = Math.max(count, result);
+        }
+
+        return result;
     }
 
     public static int longestConsecutive(int[] nums) {
-        List<Integer> numbers = new ArrayList<>();
+        ArrayList<Integer> numbers = new ArrayList<>();
         for (Integer number : nums) {
             numbers.add(number);
         }
         Collections.sort(numbers);
-        if (numbers.size() == 0) return 0;
+        if (numbers.isEmpty()) return 0;
         int maxSequenceLength = 1;
         int currentSequenceLength = 1;
         int pointer = 0;
