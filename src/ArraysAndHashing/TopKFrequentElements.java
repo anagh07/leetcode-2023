@@ -8,8 +8,8 @@ public class TopKFrequentElements {
         // nums = [1,1,1,2,2,3], k = 2
         int[] nums = {1, 1, 1, 2, 2, 3};
 //        int[] nums = {1};
-        int k = 3;
-        System.out.println(Arrays.toString(topKFrequestOptimized(nums, k)));
+        int k = 2;
+        System.out.println(Arrays.toString(topKFrequesntOptimized(nums, k)));
     }
 
     public static int[] topKFrequent(int[] nums, int k) {
@@ -32,40 +32,41 @@ public class TopKFrequentElements {
         return solution;
     }
 
-    public static int[] topKFrequestOptimized(int[] nums, int k) {
+    public static int[] topKFrequesntOptimized(int[] nums, int k) {
 
         // Count occurrence of each number
-        HashMap<Integer, Integer> count = new HashMap<>();
+        HashMap<Integer, Integer> countmap = new HashMap<>();
         for (int num : nums) {
-            count.compute(num, (key, val) -> val == null ? 1 : val + 1);
+            countmap.compute(num, (key, val) -> val == null ? 1 : val+1);
         }
 
-        // Array where index = occurrence count AND value = array of nums
-        ArrayList<Integer>[] occurrences = new ArrayList[nums.length + 1];
-        for (int i = 0; i <= nums.length; i++) {
-            occurrences[i] = new ArrayList<>();
-        }
-        for (int num : count.keySet()) {
-            int key = count.get(num);
-            occurrences[key].add(num);
+        // Group numbers by count
+        // Array = index = count, value = number
+        List<Integer>[] grouped = new ArrayList[nums.length + 1];
+        for (int num : countmap.keySet()) {
+            int count = countmap.get(num);
+            if (grouped[count] == null) {
+                grouped[count] = new ArrayList<>(Arrays.asList(num));
+            } else {
+                grouped[count].add(num);
+            }
         }
 
-        // Add k elements starting from end of occurrences array
+        // Add k elements to the result array
+        // Start from last of grouped array
         int kCount = 0;
-        int iterate = occurrences.length - 1;
-        int[] solution = new int[k];
-        while (kCount < k && iterate >= 0) {
-            if (occurrences[iterate] != null && !occurrences[iterate].isEmpty()) {
-                for (int num : occurrences[iterate]) {
-                    solution[kCount] = num;
+        int[] result = new int[k];
+        int iterator = grouped.length - 1;
+        while (kCount < k && iterator > 0) {
+            if (grouped[iterator] != null) {
+                for (Integer num : grouped[iterator]) {
+                    result[kCount] = num;
                     kCount++;
-                    if (kCount >= k)
-                        break;
+                    if (kCount >= k) return result;
                 }
             }
-            iterate--;
+            iterator--;
         }
-
-        return solution;
+        return result;
     }
 }
