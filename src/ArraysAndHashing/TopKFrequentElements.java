@@ -46,7 +46,7 @@ public class TopKFrequentElements {
         for (int num : countmap.keySet()) {
             int count = countmap.get(num);
             if (grouped[count] == null) {
-                grouped[count] = new ArrayList<>(Arrays.asList(num));
+                grouped[count] = new ArrayList<>(Collections.singletonList(num));
             } else {
                 grouped[count].add(num);
             }
